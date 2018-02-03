@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  wordpress-develop:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 9999:80
+    volumes:
+      - ./src:/var/www/html
+
+  cli:
+    image: wordpress:cli
+    volumes:
+      - ./src:/var/www/html
+
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: wordpress_develop
+
+  phpunit:
+    build:
+      context: .
+      dockerfile: Dockerfile-phpunit
+    volumes:
+      - .:/wordpress-develop
